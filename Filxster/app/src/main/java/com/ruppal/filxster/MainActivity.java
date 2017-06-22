@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.ruppal.filxster.models.Config;
 import com.ruppal.filxster.models.Movie;
 
 import org.json.JSONArray;
@@ -29,14 +30,13 @@ public class MainActivity extends AppCompatActivity {
     public final static String TAG="MainActivity";
 
     AsyncHttpClient client;
-    String image_base_url;
-    String poster_size;
     //list of movies
     ArrayList <Movie> movies;
     //the recycler view
     RecyclerView rvMovies;
     //the adapter wired to the recycler view
     MovieAdapter adapter;
+    Config config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,13 +98,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response)  {
                         try {
-                            JSONObject images=response.getJSONObject("images");
-                            image_base_url = images.getString("secure_base_url");
-                            JSONArray poster_size_array=images.getJSONArray("poster_sizes");
-                            poster_size=poster_size_array.optString(3, "w342");
+                            config = new Config(response);
                             Log.i(TAG, String.format("Loaded configuration with image base url %s and " +
-                                    "poster size %s", image_base_url, poster_size));
-                            getConfiguration();
+                                                     "poster size %s",
+                                                     config.getImage_base_url(),
+                                                     config.getPoster_size()));
+                            //pass config to adapter
+                            adapter.setConfig(config);
+                            getCurrentMovies();
                         }
                         catch (JSONException e){
                             logErrors("Failed JSON parsing", e, true);
