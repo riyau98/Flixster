@@ -2,6 +2,8 @@ package com.ruppal.filxster;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -31,7 +33,10 @@ public class MainActivity extends AppCompatActivity {
     String poster_size;
     //list of movies
     ArrayList <Movie> movies;
-
+    //the recycler view
+    RecyclerView rvMovies;
+    //the adapter wired to the recycler view
+    MovieAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +44,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         client=new AsyncHttpClient();
         movies=new ArrayList<>();
+        //initialize the adapter
+        adapter = new MovieAdapter(movies);
+        //resolve the recycler view and connect a layout manager and the adapter
+        rvMovies=(RecyclerView) findViewById(R.id.rvMovies);
+        rvMovies.setLayoutManager(new LinearLayoutManager(this));
+        rvMovies.setAdapter(adapter);
         getConfiguration();
-        getCurrentMovies();
+
+
+
     }
     //get currently playing movies from movie api
     private void getCurrentMovies(){
@@ -55,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                             for (int i =0 ; i<results.length();i++){
                                 Movie curr_movie = new Movie(results.getJSONObject(i));
                                 movies.add(curr_movie);
+                                adapter.notifyItemInserted(movies.size()-1);
                             }
                             Log.i(TAG, String.format("Loaded %s movies", results.length()));
 
@@ -90,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                             poster_size=poster_size_array.optString(3, "w342");
                             Log.i(TAG, String.format("Loaded configuration with image base url %s and " +
                                     "poster size %s", image_base_url, poster_size));
+                            getConfiguration();
                         }
                         catch (JSONException e){
                             logErrors("Failed JSON parsing", e, true);
