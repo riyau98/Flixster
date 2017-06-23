@@ -53,10 +53,8 @@ public class MainActivity extends AppCompatActivity {
         rvMovies.setLayoutManager(new LinearLayoutManager(this));
         rvMovies.setAdapter(adapter);
         getConfiguration();
-
-
-
     }
+
     //get currently playing movies from movie api
     private void getCurrentMovies(){
         String url = API_BASE_URL + "/movie/now_playing";

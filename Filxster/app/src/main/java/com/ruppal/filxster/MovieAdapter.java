@@ -1,6 +1,7 @@
 package com.ruppal.filxster;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,10 +14,10 @@ import com.bumptech.glide.Glide;
 import com.ruppal.filxster.models.Config;
 import com.ruppal.filxster.models.Movie;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
@@ -48,7 +49,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         //get the context and create the inflater
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        ButterKnife.bind(this, view);
         //create the view using the item_movie layout
         View movieView = inflater.inflate(R.layout.item_movie, parent, false);
         return new ViewHolder(movieView);
@@ -66,10 +66,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
 
         if (isPortrait) {
             image_url = config.getImageUrl(config.getPoster_size(), movie.getPosterPath());
+            String backdrop_url = config.getImageUrl(config.getBackdrop_size(), movie.getBackdropPath());
+            movie.setImageUrl(backdrop_url);
+
         }
         else{
             image_url = config.getImageUrl(config.getBackdrop_size(), movie.getBackdropPath());
+            movie.setImageUrl(image_url);
         }
+
         //get the correct placeholder based on orientation
         int placeholderId= isPortrait ? R.drawable.flicks_movie_placeholder : R.drawable.flicks_backdrop_placeholder;
         ImageView imageView= isPortrait ? holder.ivPosterImage : holder.ivBackdropImage;
@@ -89,7 +94,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         return movies.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         //track view objects
         ImageView ivPosterImage;
         TextView tvTitle;
@@ -100,12 +105,25 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
             super(itemView);
             //lookup view objects by id
             //one of the following two images could be null based on which orientation you are in
-            //using butter knife here, this is the same as saying:
-            //ivPosterImage=(ImageView) itemView.findViewById(R.id.ivPoster)
-            @BindView(R.id.ivPoster) ImageView ivPosterImage;
-            @BindView(R.id.ivBackdropImage) ImageView ivBackdropImage;
-            @BindView(R.id.tvTitle) TextView tvTitle;
-            @BindView(R.id.tvOverview)TextView tvOverview;
+            ivPosterImage = (ImageView) itemView.findViewById(R.id.ivPoster);
+            ivBackdropImage=(ImageView) itemView.findViewById(R.id.ivBackdropImage);
+            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
+            tvOverview= (TextView) itemView.findViewById(R.id.tvOverview);
+            itemView.setOnClickListener(this);
+        }
+        //when user clicks on a row, show movie details
+        @Override
+        public void onClick(View v) {
+            int position= getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION){
+                Movie movie= movies.get(position);
+                //create intent for new activity
+                Intent i = new Intent(context, DetailsActivity.class);
+                //wrap the info of the movie in a parcel
+                i.putExtra(Movie.class.getSimpleName(), Parcels.wrap(movie));
+                //show the activity
+                context.startActivity(i);
+            }
         }
     }
 
