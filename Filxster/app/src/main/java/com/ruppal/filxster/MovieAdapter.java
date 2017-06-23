@@ -15,6 +15,8 @@ import com.ruppal.filxster.models.Movie;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
@@ -46,6 +48,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         //get the context and create the inflater
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
+        ButterKnife.bind(this, view);
         //create the view using the item_movie layout
         View movieView = inflater.inflate(R.layout.item_movie, parent, false);
         return new ViewHolder(movieView);
@@ -97,10 +100,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
             super(itemView);
             //lookup view objects by id
             //one of the following two images could be null based on which orientation you are in
-            ivPosterImage = (ImageView) itemView.findViewById(R.id.ivPoster);
-            ivBackdropImage=(ImageView) itemView.findViewById(R.id.ivBackdropImage);
-            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
-            tvOverview= (TextView) itemView.findViewById(R.id.tvOverview);
+            //using butter knife here, this is the same as saying:
+            //ivPosterImage=(ImageView) itemView.findViewById(R.id.ivPoster)
+            @BindView(R.id.ivPoster) ImageView ivPosterImage;
+            @BindView(R.id.ivBackdropImage) ImageView ivBackdropImage;
+            @BindView(R.id.tvTitle) TextView tvTitle;
+            @BindView(R.id.tvOverview)TextView tvOverview;
         }
     }
 

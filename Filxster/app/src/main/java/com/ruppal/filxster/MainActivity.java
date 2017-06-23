@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         client=new AsyncHttpClient();
         movies=new ArrayList<>();
         //initialize the adapter
