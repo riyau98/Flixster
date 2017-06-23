@@ -56,4 +56,5 @@
         android:padding="5dp"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/flicks_backdrop_placeholder" />
+
 </RelativeLayout>
