@@ -67,7 +67,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void setupOnClickListener() {
         ImageView img = (ImageView) findViewById(R.id.ivBackdropTrailer);
-            img.setOnClickListener(new View.OnClickListener() {
+        img.setOnClickListener(new View.OnClickListener() {
             public void onClick (View v){
                     //create intent for new activity
                     Intent i = new Intent(DetailsActivity.this, MovieTrailerActivity.class);
@@ -93,9 +93,7 @@ public class DetailsActivity extends AppCompatActivity {
                             if (results.length()>0){
                                 trailerLink = (results.getJSONObject(0)).getString("key");
                             }
-
                             Log.i(TAG, String.format("Trailer: %s", trailerLink));
-
                         }
                         catch (JSONException e){
                             logErrors("Failed to parse trailer", e, true);

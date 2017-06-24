@@ -30,6 +30,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
     ArrayList<Movie> movies;
     //needed for image urls
     Config config;
+    boolean isPortrait;
     Context context;
     public MovieAdapter(ArrayList<Movie> movies){
         this.movies=movies;
@@ -60,7 +61,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         holder.tvTitle.setText(movie.getTitle());
         holder.tvOverview.setText(movie.getOverview());
         //determine current orientation
-        boolean isPortrait =  context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+        isPortrait =  context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
         //build url using config based on orientation
         String image_url = null;
 

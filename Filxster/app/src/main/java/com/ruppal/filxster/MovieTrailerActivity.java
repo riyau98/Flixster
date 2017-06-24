@@ -11,8 +11,6 @@ import com.loopj.android.http.AsyncHttpClient;
 
 public class MovieTrailerActivity extends YouTubeBaseActivity {
     AsyncHttpClient client;
-    String trailerLink;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

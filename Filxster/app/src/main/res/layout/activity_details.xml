@@ -40,9 +40,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:stepSize="0.5"
-        android:layout_marginTop="57dp"
         android:layout_below="@+id/tvOverviewDetail"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="71dp" />
 
     <ImageView
         android:id="@+id/ivBackdropTrailer"
