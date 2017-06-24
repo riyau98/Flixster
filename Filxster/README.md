@@ -29,8 +29,7 @@ The following **additional** features are implemented:
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
-
-![Walkthrough](Filxster/FlixsterWalkthrough.gif)
+![Walkthrough](FlixsterWalkthrough.gif)
 
 GIF created with RecordIt.
 
